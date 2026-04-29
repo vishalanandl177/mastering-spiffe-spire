@@ -1,0 +1,5 @@
+{
+  "source_spiffe_id": "spiffe://example.org/ns/default/sa/orders-api",
+  "request_method": "DELETE",
+  "request_path": "/api/users/1"
+}

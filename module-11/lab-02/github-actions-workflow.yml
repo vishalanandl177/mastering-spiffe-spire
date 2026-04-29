@@ -1,0 +1,33 @@
+name: Deploy with SPIFFE Identity
+on: [push]
+
+permissions:
+  id-token: write   # Required for OIDC token
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # Get GitHub OIDC token
+      - name: Get OIDC token
+        id: oidc
+        run: |
+          TOKEN=$(curl -sH "Authorization: bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" \
+            "$ACTIONS_ID_TOKEN_REQUEST_URL&audience=spiffe://example.org" | jq -r .value)
+          echo "::add-mask::$TOKEN"
+          echo "token=$TOKEN" >> $GITHUB_OUTPUT
+
+      # Exchange GitHub OIDC for SPIFFE SVID via SPIRE Server
+      - name: Get SPIFFE SVID
+        run: |
+          # Custom node attestor for GitHub Actions verifies the OIDC token
+          # and issues an SVID like spiffe://example.org/cicd/github/<repo>/<workflow>
+          ./scripts/exchange-oidc-for-svid.sh "${{ steps.oidc.outputs.token }}"
+
+      # Use the SVID to authenticate to deployment targets
+      - name: Deploy with SPIFFE mTLS
+        run: |
+          curl --cert ./svid.crt --key ./svid.key --cacert ./bundle.crt \
+            https://deploy.internal/api/deploy

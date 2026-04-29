@@ -1,21 +1,22 @@
-# Local development
-.DS_Store
-*.swp
-*.bak
-.idea/
-.vscode/
-
-# SPIRE generated files (do not commit certs/keys)
-*.pem
-*.key
-*.crt
+# Lab artifacts
+ca/
 data/
-.spire-data/
+svid/
+*.pem
+*.crt
+*.key
+*.csr
+*.srl
+*.cnf
+!**/server.conf
+!**/agent.conf
 
-# Local cluster state
-.kind/
-kubeconfig
+# Downloads
+spire/
+*.tar.gz
 
-# Logs
-*.log
-logs/
+# Editor
+.vscode/
+.idea/
+*.swp
+.DS_Store

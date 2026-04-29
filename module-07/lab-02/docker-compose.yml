@@ -1,0 +1,19 @@
+services:
+  envoy:
+    image: envoyproxy/envoy:v1.29-latest
+    ports: ["8000:8000"]
+    volumes:
+      - ./envoy.yaml:/etc/envoy/envoy.yaml
+    depends_on: [opa, upstream]
+
+  opa:
+    image: openpolicyagent/opa:latest-envoy
+    command: ["run", "--server", "--config-file=/config.yaml", "/policy.rego"]
+    volumes:
+      - ./opa-config.yaml:/config.yaml
+      - ../lab-01/authz.rego:/policy.rego
+    ports: ["8181:8181"]
+
+  upstream:
+    image: nginxdemos/hello:plain-text
+    ports: ["8080:80"]

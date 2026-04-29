@@ -1,0 +1,23 @@
+groups:
+  - name: spire-alerts
+    rules:
+      - alert: SpireSvidRotationStalled
+        expr: rate(spire_agent_svid_rotations_total[10m]) == 0
+        for: 15m
+        labels: { severity: critical }
+        annotations:
+          summary: "SVID rotation has stopped on {{ $labels.instance }}"
+
+      - alert: SpireAttestationErrorsHigh
+        expr: rate(spire_agent_attestation_errors_total[5m]) > 0.1
+        for: 10m
+        labels: { severity: warning }
+        annotations:
+          summary: "Attestation errors detected"
+
+      - alert: SpireServerDown
+        expr: up{job="spire-server"} == 0
+        for: 2m
+        labels: { severity: critical }
+        annotations:
+          summary: "SPIRE Server is down"

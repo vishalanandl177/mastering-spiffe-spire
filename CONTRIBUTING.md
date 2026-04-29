@@ -1,55 +1,27 @@
-# Contributing to Mastering SPIFFE & SPIRE
+# Contributing
 
-Thank you for your interest in improving this free course!
+Thank you for your interest in improving this course!
 
 ## How to Contribute
 
-### Report a Bug
+1. **Issues:** Report bugs, missing pieces, or unclear instructions
+2. **Pull Requests:** Improvements to lab scripts, additional examples, fixes
+3. **Discussions:** Share your experience deploying SPIRE in production
 
-Open an issue describing:
-- The lab and step where you encountered the bug
-- What you expected vs. what happened
-- Your environment (OS, Docker version, etc.)
-- Steps to reproduce
+## What Makes a Good PR
 
-### Suggest an Improvement
+- **One concept per PR** — keep changes focused
+- **Test your changes** — verify scripts work end-to-end
+- **Update the README** if behavior changes
+- **Match existing style** — bash scripts, YAML formatting, comments
 
-Open an issue with the `enhancement` label. Examples:
-- Additional lab scenarios
-- Alternative approaches to existing labs
-- Better explanations
-- New integrations (tools, frameworks)
+## Lab Conventions
 
-### Submit a Pull Request
+- Each lab in its own folder: `module-XX/lab-YY/`
+- Every lab has a `README.md` with objectives and run instructions
+- Setup scripts are named with prefix numbers (`00-setup.sh`, `01-deploy.sh`)
+- Keep dependencies minimal — Linux/macOS bash, kubectl, kind, docker
 
-1. Fork this repository
-2. Create a feature branch: `git checkout -b improve-module-5-debugging`
-3. Make your changes
-4. Test all affected labs
-5. Commit with descriptive messages
-6. Push and open a PR
+## Course Site
 
-## Lab Contribution Guidelines
-
-When adding or modifying labs:
-
-- **Idempotent setup scripts** — should be safe to run multiple times
-- **Clear cleanup instructions** — every lab needs a way to undo
-- **No hardcoded secrets** — use environment variables or generated certs
-- **Comments in scripts** — explain what each section does
-- **Work on a fresh Kind cluster** — labs should not depend on each other unless explicitly stated
-
-## Documentation Style
-
-- Use clear, simple language
-- Include code examples for every concept
-- Link to external docs (SPIFFE.io, K8s docs) where appropriate
-- Keep instructions copy-paste-able
-
-## Code of Conduct
-
-Be respectful and inclusive. This is a learning resource — help others learn rather than gatekeep.
-
-## Questions?
-
-Open a discussion or reach out at [coderssecret.com/consultation](https://coderssecret.com/consultation).
+The course content lives at [coderssecret.com](https://coderssecret.com/courses/mastering-spiffe-spire). For content changes, open an issue here describing what you would like changed and we can update the website.
