@@ -1,0 +1,44 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Validate YAML files
+        run: |
+          sudo apt-get install -y yamllint
+          yamllint -d relaxed module-*/
+
+      - name: Validate Rego policies
+        uses: open-policy-agent/setup-opa@v2
+        with:
+          version: latest
+      - run: |
+          for f in $(find . -name "*.rego" -not -name "*_test.rego"); do
+            opa fmt --diff "$f" || exit 1
+          done
+
+      - name: Test Rego policies
+        run: opa test module-07/lab/lab-01-rego/
+
+      - name: Validate Markdown
+        run: |
+          for f in $(find . -name "*.md"); do
+            echo "Checking $f"
+            grep -q "^# " "$f" || (echo "Missing heading in $f" && exit 1)
+          done
+
+      - name: Check shell scripts
+        run: |
+          sudo apt-get install -y shellcheck
+          for f in $(find . -name "*.sh"); do
+            shellcheck "$f" || true
+          done

@@ -1,0 +1,21 @@
+# Local development
+.DS_Store
+*.swp
+*.bak
+.idea/
+.vscode/
+
+# SPIRE generated files (do not commit certs/keys)
+*.pem
+*.key
+*.crt
+data/
+.spire-data/
+
+# Local cluster state
+.kind/
+kubeconfig
+
+# Logs
+*.log
+logs/
