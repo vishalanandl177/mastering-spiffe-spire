@@ -1,0 +1,26 @@
+#!/bin/bash
+# Observe node and workload attestation
+set -e
+
+echo "=== Lab 3: Observing Attestation ==="
+echo ""
+echo "1. Start server with debug logging (already in server.conf)"
+echo "2. Watch agent logs to see node attestation:"
+echo ""
+echo "   In server logs you should see:"
+echo "   - 'Received attestation request from agent'"
+echo "   - 'Successfully attested agent'"
+echo ""
+echo "3. When a workload calls the API, watch agent logs:"
+echo ""
+echo "   - 'Received Workload API request'"
+echo "   - 'Workload attested: PID=<pid> selectors=[unix:uid:1000 unix:gid:1000]'"
+echo ""
+echo "4. Try fetching with wrong UID (should fail):"
+echo "   sudo spire-agent api fetch x509 -socketPath /tmp/spire-agent/public/api.sock"
+echo "   # Will return 'no identity' if no entry matches uid=0"
+echo ""
+echo "Common attestation failures and fixes:"
+echo "  - Selector mismatch: check 'unix:uid' vs actual process UID"
+echo "  - Parent ID wrong: must match agent's SPIFFE ID"
+echo "  - Trust domain mismatch: server and agent must agree"
